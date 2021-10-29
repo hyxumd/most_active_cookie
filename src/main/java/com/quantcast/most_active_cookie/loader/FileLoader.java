@@ -32,7 +32,7 @@ public class FileLoader {
 		    while ((lCurLine = lBr.readLine()) != null) {
 		        String[] lEntries = lCurLine.split(COMMA_DELIMITER);
 		        if(lEntries == null || lEntries.length != 2) {
-		        	
+		        	throw new CookieServiceException("");
 		        }
 		        String lDTStr = lEntries[1];
 		        ZonedDateTime lCurDT = ZonedDateTime.parse(lDTStr, lDTFormatter);

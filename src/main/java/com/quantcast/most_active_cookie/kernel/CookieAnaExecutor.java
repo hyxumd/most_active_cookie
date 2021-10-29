@@ -20,7 +20,7 @@ public class CookieAnaExecutor implements ICookieAnaExecutor {
 			ICookieStat lCookieStat = new CookieStat();
 			List<String> lStrs = lCookieStat.getMostActiveCookies(lCookieEntries);
 			if(lStrs.isEmpty()) {
-				System.out.println("There are no cookes at the specified date");
+				System.out.println("There are no cookies at the specified date");
 				return;
 			}
 			for(String lCookie : lStrs) {

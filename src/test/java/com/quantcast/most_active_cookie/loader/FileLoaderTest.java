@@ -22,6 +22,8 @@ public class FileLoaderTest {
 		CommandLineOptions lCmdLineOptions = lOP.getCommandLineOptions();
 		CookieServiceException exp = 
 				assertThrows(CookieServiceException.class, () -> new FileLoader(lCmdLineOptions));
+		String lExpectedErrorMsg = lArgs[0] + " cannot be parsed. Please check the data integrity in the file.";
+		assertEquals(lExpectedErrorMsg, exp.getMessage());
 	}
 	
 	@Test

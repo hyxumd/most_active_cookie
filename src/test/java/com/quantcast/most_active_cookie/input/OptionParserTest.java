@@ -12,22 +12,34 @@ import com.quantcast.most_active_cookie.exceptions.CookieServiceException;
 
 public class OptionParserTest {
 	@Test
-	public void exceptionThrownForIllegalFileName() {
+	public void exceptionThrownForInvalidInput() {
 		CookieServiceException exp = 
 				assertThrows(CookieServiceException.class, () -> new OptionsParser(null));
 		assertEquals(
-				"File name is not specified.", exp.getMessage());
+				"Command line options are invalid.", exp.getMessage());
 		
+		String[] lSingleOption = new String[] {"fake_log10272021.csv"};
 		exp = 
-				assertThrows(CookieServiceException.class, () -> new OptionsParser(new String[0]));
+				assertThrows(CookieServiceException.class, () -> new OptionsParser(lSingleOption));
 		assertEquals(
-				"File name is not specified.", exp.getMessage());
+				"Command line options are invalid.", exp.getMessage());
 		
-		String[] lNotAFile = new String[] {"/"};
+		String[] lTooManyOptions = new String[] {"fake_log10272021.csv", "-d", "2018-12-09", "2000"};
 		exp = 
+				assertThrows(CookieServiceException.class, () -> new OptionsParser(lTooManyOptions));
+		assertEquals(
+				"Command line options are invalid.", exp.getMessage());
+	}
+	
+	@Test
+	public void exceptionThrownForIllegalFileName() {
+		String[] lNotAFile = new String[] {"/", "-d", "2018-12-09"};
+		CookieServiceException exp = 
 				assertThrows(CookieServiceException.class, () -> new OptionsParser(lNotAFile));
-		String[] lNonExistFile = new String[] {"fake_log10272021.csv"};
+		assertEquals(
+				"File name is not valid.", exp.getMessage());
 		
+		String[] lNonExistFile = new String[] {"fake_log10272021.csv", "-d", "2018-12-09"};
 		exp = 
 				assertThrows(CookieServiceException.class, () -> new OptionsParser(lNonExistFile));
 		assertEquals(
@@ -36,20 +48,8 @@ public class OptionParserTest {
 	
 	@Test
 	public void exceptionThrownForIllegalDate() {
-		String[] lNoDateOption= new String[] {"src/test/resources/cookie_log.csv"};
-		CookieServiceException exp = 
-				assertThrows(CookieServiceException.class, () -> new OptionsParser(lNoDateOption));
-		assertEquals(
-				"Date is not Specified.", exp.getMessage());
-		
-		String[] lNoDate = new String[] {"src/test/resources/cookie_log.csv", "-d"};
-		exp = 
-				assertThrows(CookieServiceException.class, () -> new OptionsParser(lNoDate));
-		assertEquals(
-				"Date is not Specified.", exp.getMessage());
-		
 		String[] lWrongOption = new String[] {"src/test/resources/cookie_log.csv", "-D", "2018-12-09"};
-		exp = 
+		CookieServiceException exp = 
 				assertThrows(CookieServiceException.class, () -> new OptionsParser(lWrongOption));
 		assertEquals(
 				"Date option is not valid.", exp.getMessage());

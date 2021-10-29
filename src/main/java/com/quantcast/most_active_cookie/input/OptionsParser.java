@@ -16,6 +16,9 @@ public class OptionsParser {
 	}
 	
 	private void parseOptions(final String[] args) throws CookieServiceException {
+		if(args == null || args.length != 3) {
+			throw new CookieServiceException("Command line options are invalid.");
+		}
 		parseFileName(args);
 		parseDate(args);
 	}
@@ -25,9 +28,6 @@ public class OptionsParser {
 	}
 	
 	private void parseFileName(final String[] args) throws CookieServiceException{
-		if(args == null || args.length < 1) {
-			throw new CookieServiceException("File name is not specified.");
-		}
 		String lFileName = args[0];
 		if(!isFileValid(lFileName)) {
 			throw new CookieServiceException("File name is not valid.");
@@ -36,9 +36,6 @@ public class OptionsParser {
 	}
 	
 	private void parseDate(final String[] args) throws CookieServiceException {
-		if(args == null || args.length < 3) {
-			throw new CookieServiceException("Date is not Specified.");
-		}
 		if(!args[1].equals("-d")) {
 			throw new CookieServiceException("Date option is not valid.");
 		}
